@@ -1,4 +1,4 @@
- ( # Medical Chatbot with LLM Integration
+  # Medical Chatbot with LLM Integration
 
 A Django-based chatbot application designed to handle health-related inquiries using a language model. The chatbot interacts with patients by retrieving their medical data and providing responses based on predefined categories.
 
