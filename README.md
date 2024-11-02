@@ -84,7 +84,7 @@ Start the Django development server to test the setup:
 bash
 python manage.py runserver
 
-Visit http://127.0.0.1:8000/aichat/home in your browser. Log in to the admin interface using the superuser credentials at http://127.0.0.1:8000/admin/.
+Visit http://127.0.0.1:8000/in your browser.
 
 
 
