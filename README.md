@@ -21,7 +21,7 @@ https://www.postgresql.org/
 
 ## Step 2: Set Up PostgreSQL
 1. Access PostgreSQL
-Open the PostgreSQL command-line interface (psql) or pgAdmin UI:
+Open the PostgreSQL command-line interface (psql):
 bash
 psql -U postgres
 
@@ -30,7 +30,7 @@ You might need to enter the password you set during installation.
 2. Create a New Database
 Create a database for your Django project:
 bash
-CREATE DATABASE patient_db;
+CREATE DATABASE chat_db;
 
 3. Create a Database User
 Create a new user (role) for your project:
@@ -46,4 +46,6 @@ GRANT ALL PRIVILEGES ON DATABASE chat_db TO chat_user;
 Exit the PostgreSQL prompt by typing:
 bash
 \q
+
+
 
