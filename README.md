@@ -67,6 +67,24 @@ pip install -r requirements.txt
 
 This command will install all the packages listed in the requirements.txt file into your virtual environment.
 
+## Step 4: Run Migrations
+Apply the database migrations to set up your database schema:
+bash
+python manage.py migrate
+
+## Step 5: Create a Superuser
+Create a superuser account to access the Django admin interface:
+bash
+python manage.py createsuperuser
+
+Follow the prompts to create your admin user.
+
+## Step 6: Run the Django Development Server
+Start the Django development server to test the setup:
+bash
+python manage.py runserver
+
+Visit http://127.0.0.1:8000/aichat/home in your browser. Log in to the admin interface using the superuser credentials at http://127.0.0.1:8000/admin/.
 
 
 
