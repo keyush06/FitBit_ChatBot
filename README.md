@@ -84,9 +84,10 @@ Start the Django development server to test the setup:
 bash
 python manage.py runserver
 
-Visit http://127.0.0.1:8000/in your browser.
+Visit [http://127.0.0.1:8000/in](http://127.0.0.1:8000/) your browser.
 
-![image](https://github.com/user-attachments/assets/895fdd94-faac-4e5c-bef8-ec53674dea90)
+![image](https://github.com/user-attachments/assets/ce60f062-a3a2-45ef-a6f0-a52aba0df750)
+
 
 
 
