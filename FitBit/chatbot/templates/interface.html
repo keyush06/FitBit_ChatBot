@@ -10,7 +10,7 @@
 <body class="bg-blue-50">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="w-64 bg-gradient-to-b from-blue-800 to-blue-600 text-white p-4 overflow-y-auto">
+        <div class="w-80 bg-gradient-to-b from-blue-800 to-blue-600 text-white p-4 overflow-y-auto">
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-3xl font-semibold">Chat Sessions</h2>
                 <button class="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded-full" 
@@ -28,12 +28,14 @@
                 {% endif %}
                 
                 {% for session in chatSessions_list %}
-                    <li class="text-yellow-200">
+                    <li class="text-yellow-200 flex items-center space-x-2">
                         <a href="{% url 'chat_session' session.id %}">
                             <span id="session-name-{{ session.id }}">{{ session.name }}</span>
                         </a>
                         <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-1 px-2 rounded"
                                             onclick="editSessionName({{session.id}})">Edit</button>
+                        <button class="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-2 rounded" 
+                                            onclick="deleteSession({{ session.id }})">Delete</button>
                     </li>
                 {% empty %}
                     <li class="text-orange-200">No chat sessions available.</li>
@@ -62,6 +64,28 @@
                                 nameSpan.innerText = newName;
                             } else {
                                 alert("Failed to rename session");
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                    }
+                }
+            </script>
+
+            <script>
+                function deleteSession(sessionId) {
+                    if (confirm("Are you sure you want to delete this session?")) {
+                        fetch(`/delete_session/${sessionId}/`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                window.location.reload();  // Reload the page to reflect the deleted session
+                            } else {
+                                alert("Failed to delete session");
                             }
                         })
                         .catch(error => console.error('Error:', error));
@@ -120,7 +144,7 @@
         </div>
     </div>
 
-    <!-- Patient Info Modal -->
+    <!-- Patient Info Model -->
     <div id="patientModal" class="fixed inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center hidden">
         <div class="bg-white p-8 rounded-lg w-1/3 shadow-lg">
             <h2 class="text-2xl font-semibold mb-4">Patient Information</h2>

@@ -3,6 +3,7 @@
 # from langchain.llms import OpenAI
 # from langchain.prompts import PromptTemplate
 from openai import OpenAI
+from datetime import datetime, timedelta
 import openai
 import os
 from neo4j import GraphDatabase
@@ -107,10 +108,26 @@ def extract_requested_date(user_message):
             return match.group(0)  # Return the matched date string
     return None  # Return None if no date is found
 
+def find_next_weekday(weekday_name):
+    days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+    today = datetime.today()
+    target_day = days.index(weekday_name.lower())
+    days_ahead = target_day - today.weekday()
+    if days_ahead <= 0:
+        days_ahead += 7
+    return today + timedelta(days=days_ahead)
+
+
 def extract_entities(user_message, patient_details=None):
     requested_date = extract_requested_date(user_message)
     if not requested_date:
         requested_date = "the requested date"
+    elif "next" in requested_date.lower():
+        weekday = requested_date.split()[-1].lower()
+        requested_date = find_next_weekday(weekday).strftime("%Y-%m-%d (%A)")
+    # requested_date = extract_requested_date(user_message)
+    # if not requested_date:
+    #     requested_date = "the requested date"
     doctor_name = patient_details.get("doctor_name", "[Doctor's Name]")
     dob = patient_details.get("dob", "[Date of Birth]")
     patient_name = f"{patient_details.get('first_name', '[First Name]')} {patient_details.get('last_name', '[Last Name]')}"
@@ -126,9 +143,13 @@ You are an AI assistant designed to handle health-related inquiries from patient
 
 Categories and Responses:
 1. **Appointment-related inquiries**:
-- If the patient requests for a new appointment, respond with:
+   - If the patient requests an appointment without specifying a date, respond with:
+    - **"When would you like to schedule the appointment? Kindly provide me with further details."**
+   - If the patient requests an appointment and specifies a date or a day, respond with:
+    -**“Your new appointment date is {next_appointment}. Would you like to change/reschedule?”**
+   - If the pateitn asks about his current appountment, respond with:
     - **“Your new appointment date is {next_appointment}.”**
-   - If the patient requests to reschedule an appointment, respond with:
+   - If the patient requests to reschedule/change an existing appointment, respond with:
      - **“I will convey your request to {doctor_name}.”**
    - Also return the following text:
      - **“Patient {patient_name} is requesting an appointment change from {last_appointment} to {requested_date}.”**
@@ -169,7 +190,7 @@ Categories and Responses:
             raise ValueError("Unexpected response structure")
     except (KeyError, IndexError, ValueError) as e:
         print("Error in extracting response text:", e)
-        return {"response": "I'm here to assist with health-related inquiries."}
+        return {"response": "I'm here to assist with health-related inquiries. Please give more details about your query/health concerns."}
 
     # try:
     #     # Parse response to ensure it is JSON formatted

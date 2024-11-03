@@ -60,7 +60,7 @@ def generate_bot_response(user_message):
     print("Extracted Entities:", entities)
     
     # Fetch the 'response' value from entities dictionary
-    response_text = entities.get("response", "I'm here to assist with health-related inquiries. testing here")
+    response_text = entities.get("response", "I'm here to assist with health-related inquiries.")
     return response_text
 
     # entities = extract_entities(user_message)  # Extract entities from user message
@@ -249,5 +249,9 @@ def rename_session(request, session_id):
     
     return JsonResponse({'success': False, 'error': 'Invalid request'})
 
+def delete_chat_session(request, session_id):
+    session = get_object_or_404(chatSessions, id=session_id)
+    session.delete()
+    return redirect('home')
 
-# Create your views here.
+
