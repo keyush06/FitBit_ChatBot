@@ -69,13 +69,17 @@ This command will install all the packages listed in the requirements.txt file i
 
 ## Step 4: Run Migrations
 Apply the database migrations to set up your database schema:
+```
 bash
 python manage.py migrate
+```
 
 ## Step 5: Create a Superuser
 Create a superuser account to access the Django admin interface:
+```
 bash
 python manage.py createsuperuser
+```
 
 Follow the prompts to create your admin user.
 
