@@ -49,7 +49,16 @@ Exit the PostgreSQL prompt by typing:
 \q
 ```
 
-## Step 3: Install Project Dependencies
+## Step 1: Clone the Repository
+
+Start by cloning the repository to your local machine.
+
+```bash
+git clone https://github.com/your-username/FitBit_ChatBot.git
+cd FitBit_ChatBot
+```
+
+## Step 2: Install Project Dependencies
 
 ### 1. Create a Virtual Environment
 It is recommended to use a virtual environment to manage your project’s dependencies.
@@ -67,26 +76,55 @@ pip install -r requirements.txt
 
 This command will install all the packages listed in the requirements.txt file into your virtual environment.
 
-## Step 4: Run Migrations
-Apply the database migrations to set up your database schema:
-bash
-python manage.py migrate
 
-## Step 5: Create a Superuser
-Create a superuser account to access the Django admin interface:
+## Step 3: Configure Environment Variables
+Create a .env file in the root directory of your project to store your environment variables, like API keys and database settings. 
+#### My work is LLM agnostic, I also have LLMOpenAI function that can be called for OpenAI keys. As directed in the project, I have used Google's Gemini.
+
+```bash
+# .env
+GEMINI_API_KEY=your_gemini_api_key
+MODEL_NAME=your_model_name
+
+# You can also put the OpenAI keys
+```
+
+## Step 4: Set Up Django Configuration
+Update the settings.py file if necessary to reflect your database and other settings.
+
+If using environment variables for sensitive information, ensure settings.py loads them appropriately.
+
+## Step 5:Migrate the Database
+Apply the database migrations to set up your database schema:
+```
+bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+## Step 6: Create a Superuser
+To access Django's admin interface, create a superuser:
+```
 bash
 python manage.py createsuperuser
+```
 
 Follow the prompts to create your admin user.
 
-## Step 6: Run the Django Development Server
+## Step 7: Load Initial Data (Optional)
+If you have initial data to load (like test patients or sessions), you can create a Django fixture or manually add data via the Django admin.
+
+## Step 8: Run the Django Development Server
 Start the Django development server to test the setup:
 bash
 python manage.py runserver
 
-Visit http://127.0.0.1:8000/in your browser.
+Visit [http://127.0.0.1:8000/in](http://127.0.0.1:8000/) your browser.
 
-![image](https://github.com/user-attachments/assets/895fdd94-faac-4e5c-bef8-ec53674dea90)
+### The overall User Interface is shown below: -
+
+![image](https://github.com/user-attachments/assets/ce60f062-a3a2-45ef-a6f0-a52aba0df750)
+
 
 
 
